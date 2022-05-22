@@ -1,6 +1,8 @@
 from Methods.RungeKutta4Method import runge_kutta_4_method
 from Model.DifferentialEquation import DifferentialEquation, get_function
 
+acc = 14
+
 
 def adams_method(differential_equation: DifferentialEquation):
     if ((differential_equation.b - differential_equation.a) / differential_equation.h) + 1 <= 4:
@@ -17,11 +19,13 @@ def adams_method(differential_equation: DifferentialEquation):
     y_precalculated = []
     [y_precalculated.append(l[1:2][0]) for l in table_runge[:4]]
     for i in range(4):
-        table.append([x_precalculated[i], y_precalculated[i]])
+        table.append([x_precalculated[i], y_precalculated[i], '', '', '', ''])
 
     x_curr = x_precalculated[3]
-    while x_curr <= differential_equation.b:
+    while x_curr < differential_equation.b:
         x_curr += h
+        if round(x_curr, acc) > differential_equation.b:
+            break
         lambda_fi = f(x_precalculated[3], y_precalculated[3]) - f(x_precalculated[2], y_precalculated[2])
         lambda2_fi = f(x_precalculated[3], y_precalculated[3]) - 2 * f(x_precalculated[2], y_precalculated[2]) \
                     + f(x_precalculated[1], y_precalculated[1])
