@@ -1,5 +1,7 @@
 from Model.DifferentialEquation import DifferentialEquation, get_function
 
+acc = 14
+
 
 def runge_kutta_4_method(differential_equation: DifferentialEquation):
     f = get_function(differential_equation.function_type)
@@ -10,8 +12,10 @@ def runge_kutta_4_method(differential_equation: DifferentialEquation):
     x_pred = differential_equation.x_0
 
     x_curr = differential_equation.a
-    while x_curr <= differential_equation.b:
+    while x_curr < differential_equation.b:
         x_curr += h
+        if round(x_curr, acc) > differential_equation.b:
+            break
         k1 = h * f(x_pred, y_pred)
         k2 = h * f(x_pred + (h / 2), y_pred + (k1 / 2))
         k3 = h * f(x_pred + (h / 2), y_pred + (k2 / 2))
